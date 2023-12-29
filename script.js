@@ -50,13 +50,13 @@ message.style.height =
   Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
 
 ///////////////////////////////////////
-// Smooth scroll
+// Smooth scrolling
 
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
 
 btnScrollTo.addEventListener('click', function (e) {
-  // For older browsers:
+  // // For older browsers:
   // const s1coords = section1.getBoundingClientRect();
   // window.scrollTo({
   //   left: s1coords.left,
@@ -65,3 +65,20 @@ btnScrollTo.addEventListener('click', function (e) {
   // });
   section1.scrollIntoView({ behavior: 'smooth' });
 });
+
+///////////////////////////////////////
+// Mouse enter events
+
+// const h1 = document.querySelector('h1');
+
+// // mordern way
+// const alerth1 = function (e) {
+//   alert('You are hovering the heading!');
+//   h1.removeEventListener('mouseenter', alerth1);
+// };
+// h1.addEventListener('mouseenter', alerth1);
+
+// // older way of listening to events
+// h1.onmouseenter = function (e) {
+//   alert('hehe');
+// };
