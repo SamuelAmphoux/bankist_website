@@ -33,6 +33,7 @@ document.addEventListener('keydown', function (e) {
 
 ///////////////////////////////////////
 // Cookies warning message
+
 const message = document.createElement('div');
 message.classList.add('cookie-message');
 message.innerHTML =
@@ -47,3 +48,20 @@ message.style.backgroundColor = '#37383d';
 message.style.width = '120%';
 message.style.height =
   Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
+
+///////////////////////////////////////
+// Smooth scroll
+
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+
+btnScrollTo.addEventListener('click', function (e) {
+  // For older browsers:
+  // const s1coords = section1.getBoundingClientRect();
+  // window.scrollTo({
+  //   left: s1coords.left,
+  //   top: s1coords.top + scrollY,
+  //   behavior: 'smooth',
+  // });
+  section1.scrollIntoView({ behavior: 'smooth' });
+});
