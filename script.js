@@ -93,6 +93,54 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
 });
 
 ///////////////////////////////////////
+// Tabbed component
+
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+tabsContainer.addEventListener('click', function (e) {
+  // Selects the operations_tab even if a child was clicked
+  const target = e.target.closest('.operations__tab');
+
+  if (target?.classList.contains('btn')) {
+    // Retrieve the number of the clicked tab
+    // const tabNum = target.getAttribute('data-tab'); OR
+    const tabNum = target.dataset.tab;
+
+    // Make the current tab's btn "hover"
+    // tabs.forEach(function (el) {
+    //   if (
+    //     el.classList.contains(`operations__tab--${Number.parseInt(tabNum)}`)
+    //   ) {
+    //     el.classList.add('operations__tab--active');
+    //   } else {
+    //     el.classList.remove('operations__tab--active');
+    //   }
+    // });
+
+    // Change the tab content
+    // tabsContent.forEach(function (el) {
+    //   if (
+    //     el.classList.contains(`operations__content--${Number.parseInt(tabNum)}`)
+    //     ) {
+    //       el.classList.add('operations__content--active');
+    //     } else {
+    //       el.classList.remove('operations__content--active');
+    //     }
+    //   });
+
+    tabs.forEach(t => t.classList.remove('operations__tab--active'));
+    tabsContent.forEach(c => c.classList.remove('operations__content--active'));
+
+    target.classList.add('operations__tab--active');
+    document
+      .querySelector(`.operations__content--${Number.parseInt(tabNum)}`)
+      .classList.add('operations__content--active');
+  }
+});
+
+///////////////////////////////////////
 // Mouse enter events
 
 // const h1 = document.querySelector('h1');
