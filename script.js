@@ -66,6 +66,32 @@ btnScrollTo.addEventListener('click', function (e) {
   section1.scrollIntoView({ behavior: 'smooth' });
 });
 
+// Page nav using event delegation/bubbling
+
+// // What it looks like without event delegation
+// document.querySelectorAll('.nav__link').forEach(function (el) {
+//   el.addEventListener('click', function (e) {
+//     e.preventDefault();
+//     const sectionId = this.getAttribute('href');
+//     console.log(sectionId);
+//     document.querySelector(sectionId).scrollIntoView({ behavior: 'smooth' });
+//   });
+// });
+
+// Better performance with event delegation
+// 1. Add event listener to common parent element
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  // Matching strategy <=> ensure we're processing only clicks targeted at something
+  // and not clicks between links
+  if (e.target.classList.contains('nav__link')) {
+    // 2. Determine what element originated the event
+    const sectionId = e.target.getAttribute('href');
+    document.querySelector(sectionId).scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
 ///////////////////////////////////////
 // Mouse enter events
 
