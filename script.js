@@ -18,6 +18,7 @@ const tabsContainer = document.querySelector('.operations__tab-container');
 const tabsContent = document.querySelectorAll('.operations__content');
 const sliderBtnLeft = document.querySelector('.slider__btn--left');
 const sliderBtnRight = document.querySelector('.slider__btn--right');
+const dotContainer = document.querySelector('.dots');
 
 const openModal = function (e) {
   e.preventDefault();
@@ -44,20 +45,20 @@ document.addEventListener('keydown', function (e) {
 ///////////////////////////////////////
 // Cookies warning message
 
-const message = document.createElement('div');
-message.classList.add('cookie-message');
-message.innerHTML =
-  'Wu use cookies for improved functionality and alaytics. <button class="btn btn--close-cookie">Got it!</button>';
-header.append(message);
-document
-  .querySelector('.btn--close-cookie')
-  .addEventListener('click', function () {
-    message.remove();
-  });
-message.style.backgroundColor = '#37383d';
-message.style.width = '120%';
-message.style.height =
-  Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
+// const message = document.createElement('div');
+// message.classList.add('cookie-message');
+// message.innerHTML =
+//   'Wu use cookies for improved functionality and alaytics. <button class="btn btn--close-cookie">Got it!</button>';
+// header.append(message);
+// document
+//   .querySelector('.btn--close-cookie')
+//   .addEventListener('click', function () {
+//     message.remove();
+//   });
+// message.style.backgroundColor = '#37383d';
+// message.style.width = '120%';
+// message.style.height =
+//   Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
 
 ///////////////////////////////////////
 // Smooth scrolling
@@ -253,42 +254,85 @@ imgTargets.forEach(img => imgObserver.observe(img));
 
 ///////////////////////////////////////
 // Slider
+const sliderComponent = function () {
+  const slides = document.querySelectorAll('.slide');
+  let currentSlide = 0;
+  const maxSlide = slides.length;
 
-const slides = document.querySelectorAll('.slide');
-let currentSlide = 0;
-const maxSlide = slides.length;
-const slider = document.querySelector('.slider');
+  const slideTo = function (slide) {
+    slides.forEach(
+      (s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`)
+    );
+  };
 
-const slideTo = function (slide) {
-  slides.forEach(
-    (s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`)
-  );
+  // Next Slide
+  const nextSlide = function () {
+    if (currentSlide === maxSlide - 1) {
+      currentSlide = 0;
+    } else {
+      currentSlide++;
+    }
+    slideTo(currentSlide);
+    activateDot(currentSlide);
+  };
+  // Previous Slide
+  const previousSlide = function () {
+    if (currentSlide === 0) {
+      currentSlide = maxSlide - 1;
+    } else {
+      currentSlide--;
+    }
+    slideTo(currentSlide);
+    activateDot(currentSlide);
+  };
+
+  // Adding dots
+  const createDots = function () {
+    slides.forEach(function (_, i) {
+      dotContainer.insertAdjacentHTML(
+        'beforeend',
+        `<button class="dots__dot" data-slide="${i}"></button>`
+      );
+    });
+  };
+
+  // Highlighting current dot/slide
+  const activateDot = function (slide) {
+    document
+      .querySelectorAll('.dots__dot')
+      .forEach(dot => dot.classList.remove('dots__dot--active'));
+    document
+      .querySelector(`.dots__dot[data-slide="${slide}"]`)
+      .classList.add('dots__dot--active');
+  };
+
+  sliderBtnRight.addEventListener('click', nextSlide);
+  sliderBtnLeft.addEventListener('click', previousSlide);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') previousSlide();
+    if (e.key === 'ArrowRight') nextSlide();
+  });
+
+  dotContainer.addEventListener('click', function (e) {
+    if (e.target.classList.contains('dots__dot')) {
+      const { slide } = e.target.dataset;
+      slideTo(slide);
+      activateDot(slide);
+    }
+  });
+
+  const initSlider = function () {
+    // slides.forEach((s, i) => (s.style.transform = `translateX(${100 * i}%)`));
+    slideTo(0);
+    createDots();
+    activateDot(0);
+  };
+  initSlider();
 };
 
-// slides.forEach((s, i) => (s.style.transform = `translateX(${100 * i}%)`));
-slideTo(0);
-
-// Next Slide
-const nextSlide = function () {
-  if (currentSlide === maxSlide - 1) {
-    currentSlide = 0;
-  } else {
-    currentSlide++;
-  }
-  slideTo(currentSlide);
-};
-sliderBtnRight.addEventListener('click', nextSlide);
-
-// Previous Slide
-const previousSlide = function () {
-  if (currentSlide === 0) {
-    currentSlide = maxSlide - 1;
-  } else {
-    currentSlide--;
-  }
-  slideTo(currentSlide);
-};
-sliderBtnLeft.addEventListener('click', previousSlide);
+// Activating whole component
+sliderComponent();
 
 ///////////////////////////////////////
 // Mouse enter events
