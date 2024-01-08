@@ -335,6 +335,26 @@ const sliderComponent = function () {
 sliderComponent();
 
 ///////////////////////////////////////
+// Lifecycle DOM events
+
+// Wait for the loading of the whole html file
+// document.addEventListener('DOMContentLoaded', function (e) {
+//   console.log(e);
+// });
+
+// Wait for the loading of external resources/css too
+// window.addEventListener('load', function (e) {
+//   console.log(e);
+// });
+
+// Triggers before leaving the page -- Useful in cases where data may be lost
+// window.addEventListener('beforeunload', function (e) {
+//   e.preventDefault();
+//   console.log(e);
+//   e.returnValue = '';
+// });
+
+///////////////////////////////////////
 // Mouse enter events
 
 // const h1 = document.querySelector('h1');
