@@ -16,6 +16,8 @@ const section2 = document.querySelector('#section--2');
 const tabs = document.querySelectorAll('.operations__tab');
 const tabsContainer = document.querySelector('.operations__tab-container');
 const tabsContent = document.querySelectorAll('.operations__content');
+const sliderBtnLeft = document.querySelector('.slider__btn--left');
+const sliderBtnRight = document.querySelector('.slider__btn--right');
 
 const openModal = function (e) {
   e.preventDefault();
@@ -248,6 +250,45 @@ const imgObserver = new IntersectionObserver(loadImage, {
 });
 
 imgTargets.forEach(img => imgObserver.observe(img));
+
+///////////////////////////////////////
+// Slider
+
+const slides = document.querySelectorAll('.slide');
+let currentSlide = 0;
+const maxSlide = slides.length;
+const slider = document.querySelector('.slider');
+
+const slideTo = function (slide) {
+  slides.forEach(
+    (s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`)
+  );
+};
+
+// slides.forEach((s, i) => (s.style.transform = `translateX(${100 * i}%)`));
+slideTo(0);
+
+// Next Slide
+const nextSlide = function () {
+  if (currentSlide === maxSlide - 1) {
+    currentSlide = 0;
+  } else {
+    currentSlide++;
+  }
+  slideTo(currentSlide);
+};
+sliderBtnRight.addEventListener('click', nextSlide);
+
+// Previous Slide
+const previousSlide = function () {
+  if (currentSlide === 0) {
+    currentSlide = maxSlide - 1;
+  } else {
+    currentSlide--;
+  }
+  slideTo(currentSlide);
+};
+sliderBtnLeft.addEventListener('click', previousSlide);
 
 ///////////////////////////////////////
 // Mouse enter events
