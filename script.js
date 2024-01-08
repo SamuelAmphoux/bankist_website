@@ -11,6 +11,7 @@ const header = document.querySelector('.header');
 const nav = document.querySelector('.nav');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
+const section2 = document.querySelector('#section--2');
 const tabs = document.querySelectorAll('.operations__tab');
 const tabsContainer = document.querySelector('.operations__tab-container');
 const tabsContent = document.querySelectorAll('.operations__content');
@@ -168,6 +169,41 @@ nav.addEventListener('mouseout', handleHover.bind(1));
 //   if (window.scrollY > initialCoords.top) nav.classList.add('sticky');
 //   else nav.classList.remove('sticky');
 // });
+
+// // Using Intersection Server API
+
+// const obsCallBack = function (entries, observer) {
+//   entries.forEach(entry => {
+//     console.log(entry);
+//   });
+// };
+// const obsOptions = {
+//   // Setting the root to null means watching intersection with viewport
+//   root: null,
+//   // Percentage visible target needed to trigger
+//   // Using two values allows to trigger while entering and when exiting
+//   threshold: [0, 0.2],
+// };
+// const observer = new IntersectionObserver(obsCallBack, obsOptions);
+// observer.observe(section1);
+
+const stickyNav = function (entries) {
+  const [entry] = entries;
+  if (entry.isIntersecting) {
+    nav.classList.remove('sticky');
+  } else {
+    nav.classList.add('sticky');
+  }
+};
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  // We compute the navbar's height and make it negative
+  // This value serves to shrink each side of the root element's bounding box before computing intersections
+  rootMargin: `-${nav.getBoundingClientRect().height}px`,
+});
+
+headerObserver.observe(header);
 
 ///////////////////////////////////////
 // Mouse enter events
